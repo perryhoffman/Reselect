@@ -26,19 +26,19 @@ Reselect.directive('reselect', ['$compile', function($compile) {
 			var $transcludeElems = null;
 
 			transcludeFn($scope, function(clone, scp) {
+
+				// Store all child elements
 				$transcludeElems = clone;
 				$element.append(clone);
 			}).detach();
 
 			function transcludeAndAppend(target, destination, store, ctrl, replace) {
+				// Look within child elements for the specific target
 				var $transcludeElement = $transcludeElems[0].querySelectorAll('.' + target + ',' + '[' + target + '],' + target);
 				
-				if ($transcludeElement.length === 1) {
-					if (replace === true) {
-						angular.element($element[0].querySelector('.' + target)).replaceWith($transcludeElement);
-					} else {
-						angular.element($element[0].querySelectorAll(destination)).append($transcludeElement);
-					}
+				// If it exists replace or append it
+				if ($transcludeElement.length === 1 && replace) {
+					angular.element($element[0].querySelector('.' + target)).replaceWith($transcludeElement);
 				} else {
 					angular.element($element[0].querySelectorAll(destination)).append($transcludeElement);
 				}
@@ -296,7 +296,7 @@ Reselect.directive('reselect', ['$compile', function($compile) {
 				event.stopPropagation();
 			}
 
-			ctrl.showDropdown = function() {
+			ctrl.showDropdown = function(skipSearchFocus) {
 				ctrl.opened = true;
 
 				ctrl._positionDropdown();
@@ -314,7 +314,9 @@ Reselect.directive('reselect', ['$compile', function($compile) {
 					}
 				});
 
-				$scope.$emit('reselect.search.focus');
+				if (!skipSearchFocus) {
+					$scope.$emit('reselect.search.focus');
+				}
 
 				// Recalculate on resize
 				angular.element(window).on('resize scroll', ctrl._positionDropdown);

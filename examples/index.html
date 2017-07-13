@@ -58,6 +58,20 @@
                             </div>
                         </reselect>
 
+                        <h3>Inline Input:</h3> 
+
+                        <p><strong>Selected Value:</strong> <span ng-bind="simple.input1"></span></p>
+                        <reselect
+                            ng-model="simple.input1">
+                            <div reselect-selection>
+                                <span ng-bind="$choice.first_name"></span>
+                            </div>
+                            <div reselect-choices
+                                options="option.id as option in simple.mocks.objects|rsPropsFilter:{skill: $reselect.search_term } track by id">
+                                    <span ng-bind-html="option.first_name + ' ' + option.last_name + ' - ' + option.skill | rshighlight : $reselect.search_term"></span>
+                            </div reselect-choices>
+                        </reselect>
+
                         <h3>Array of Objects:</h3>
 
                         <p><strong>Selected Value:</strong> <span ng-bind="simple.objects1"></span></p>

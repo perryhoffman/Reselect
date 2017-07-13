@@ -84,8 +84,7 @@ Reselect.directive('reselectChoices', ['ChoiceParser', '$compile',
 
                     transcludeFn(function (clone, scope) {
                         angular.element(
-                            $reselectChoices.CHOICE_TEMPLATE[
-                                0].querySelectorAll(
+                            $reselectChoices.CHOICE_TEMPLATE[0].querySelectorAll(
                                 '.reselect-option-choice-container'
                             )).append(clone)
                     })
@@ -329,6 +328,11 @@ Reselect.directive('reselectChoices', ['ChoiceParser', '$compile',
                         self.getData(true, false)
                     }, 300, false, function () {
                         self.is_loading = true
+                    })
+
+                    $scope.$on('reselect.search', function (event, search_term) {
+                        console.log('seeearching ', arguments)
+                        self.search()
                     })
 
                     /**
